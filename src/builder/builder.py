@@ -1,10 +1,11 @@
 import io
-import docker
-from io import BytesIO
 import tarfile
+from io import BytesIO
 
-from docker.models.containers import Container
+import docker
 from builder.cfg import BuildContext
+from docker.models.containers import Container
+
 
 class MatrixSrcBuilder:
     @classmethod
@@ -14,10 +15,7 @@ class MatrixSrcBuilder:
 
         client = docker.from_env()
         container = client.containers.run(
-            bin_cfg.CONTAINER_NAME, 
-            bin_cfg.COMMAND,
-            environment=build_env,
-            detach=True
+            bin_cfg.CONTAINER_NAME, bin_cfg.COMMAND, environment=build_env, detach=True
         )
         container.wait()
 
@@ -31,13 +29,13 @@ class MatrixSrcBuilder:
             'ENV_MQTT_SERVER_PASS': mqtt_cfg.MQTT_SERVER_PASS,
             'ENV_MQTT_SERVER_IP': mqtt_cfg.MQTT_SERVER_IP,
             'ENV_MQTT_SERVER_PORT': mqtt_cfg.MQTT_SERVER_PORT,
-            'ENV_MQTT_TOPIC': f"matrix/{ctx.MATRIX_UUID}",
+            'ENV_MQTT_TOPIC': f'matrix/{ctx.MATRIX_UUID}',
             'ENV_CLIENT_UUID': ctx.MATRIX_UUID,
             'ENV_WIFI_SSID': ctx.WIFI_SSID,
             'ENV_WIFI_PASS': ctx.WIFI_PASS,
         }
 
-    @classmethod 
+    @classmethod
     def _extract_binfile(cls, container: Container, path: str) -> io.BytesIO | None:
         stream, _ = container.get_archive(path)
         file_obj = BytesIO()

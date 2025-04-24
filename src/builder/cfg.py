@@ -1,5 +1,6 @@
-from pydantic_settings import BaseSettings
 from pydantic import BaseModel
+from pydantic_settings import BaseSettings
+
 
 class MQTTConfig(BaseSettings):
     MQTT_SERVER_LOGIN: str
@@ -10,6 +11,7 @@ class MQTTConfig(BaseSettings):
     class Config:
         env_file = '../../.env'
 
+
 class BinConfig(BaseSettings):
     CONTAINER_NAME: str
     COMMAND: str
@@ -18,6 +20,7 @@ class BinConfig(BaseSettings):
     class Config:
         env_file = '../../.env'
 
+
 class BuildContext(BaseModel):
     MATRIX_UUID: str
     WIFI_SSID: str
@@ -25,4 +28,3 @@ class BuildContext(BaseModel):
 
     BIN_CONFIG: BinConfig
     MQTT_CONFIG: MQTTConfig
-

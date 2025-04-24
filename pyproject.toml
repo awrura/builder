@@ -18,3 +18,8 @@ venv = ".venv"
 executionEnvironments = [
   { root = "src" },
 ]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+]
