@@ -9,7 +9,7 @@ class MQTTConfig(BaseSettings):
     MQTT_SERVER_PORT: int
 
     class Config:
-        env_file = '../../.env'
+        env_file = '../.env'
 
 
 class BinConfig(BaseSettings):
@@ -18,7 +18,7 @@ class BinConfig(BaseSettings):
     BIN_PATH: str
 
     class Config:
-        env_file = '../../.env'
+        env_file = '../.env'
 
 
 class BuildContext(BaseModel):
