@@ -2,8 +2,9 @@ import io
 import tarfile
 from io import BytesIO
 
-import docker
 from builder.cfg import BuildContext
+
+import docker
 from docker.models.containers import Container
 
 
