@@ -5,7 +5,6 @@ services:
     build:
       context: ./
       dockerfile: docker/Dockerfile
-    entrypoint: uv run main.py
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     env_file:
