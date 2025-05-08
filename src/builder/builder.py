@@ -9,6 +9,16 @@ from docker.models.containers import Container
 
 
 class MatrixSrcBuilder:
+    """
+    Сервис сборки исходников матрицы
+
+    Занимается сборкой бинарного файла для платы матрицы.
+    Основная задача состоит в том, чтобы запустить docker контейнер
+    в котором происходит сборка, передать в него нужные параметры сборки,
+    дождаться завершения процесса сборки и достать из контейнера бинарный
+    файл.
+    """
+
     @classmethod
     def build(cls, ctx: BuildContext) -> io.BytesIO | None:
         build_env = cls._configure_build_env(ctx)
