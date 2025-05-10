@@ -32,7 +32,16 @@ def build(wifi_login: str, wifi_password: str, matrix_uuid: str):
         MQTT_CONFIG=mqtt_cfg,
     )
 
-    MatrixSrcBuilder.build(ctx)
+    click.echo('Processing...')
+    bin_io = MatrixSrcBuilder.build(ctx)
+
+    if not bin_io:
+        click.echo('Unable to create binary file', err=True)
+        return
+
+    click.echo('Success')
+    with open('firmware.bin', 'wb') as file:
+        file.write(bin_io.getvalue())
 
 
 if __name__ == '__main__':
