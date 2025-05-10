@@ -1,11 +1,17 @@
 import click
+import esptool
 from builder.builder import MatrixSrcBuilder
 from builder.cfg import BinConfig
 from builder.cfg import BuildContext
 from builder.cfg import MQTTConfig
 
 
-@click.command()
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
 @click.option(
     '-wl', '--wifi_login', prompt='Your WIFI login >>>', help='Your WIFI login'
 )
@@ -44,5 +50,17 @@ def build(wifi_login: str, wifi_password: str, matrix_uuid: str):
         file.write(bin_io.getvalue())
 
 
+@cli.command()
+@click.option('-p', '--port', help='ESP connection port', default='/dev/ttyUSB0')
+@click.option(
+    '-b', '--bin_path', help='Path to the binary file to upload', default='firmware.bin'
+)
+def upload(port: str, bin_path: str):
+    """Загрузка бинарного файла на матрицу"""
+
+    click.echo(f'Begin upload ESP on port {port}')
+    esptool.main(['--port', port, 'write_flash', '0x00000', bin_path])
+
+
 if __name__ == '__main__':
-    build()
+    cli()
