@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
+from pydantic_settings import SettingsConfigDict
 
 
 class MQTTConfig(BaseSettings):
@@ -8,8 +11,9 @@ class MQTTConfig(BaseSettings):
     MQTT_SERVER_IP: str
     MQTT_SERVER_PORT: int
 
-    class Config:
-        env_file = '../.env'
+    model_config = SettingsConfigDict(
+        env_file=Path.cwd() / '.env', env_file_encoding='utf-8', extra='ignore'
+    )
 
 
 class BinConfig(BaseSettings):
@@ -17,8 +21,9 @@ class BinConfig(BaseSettings):
     COMMAND: str
     BIN_PATH: str
 
-    class Config:
-        env_file = '../.env'
+    model_config = SettingsConfigDict(
+        env_file=Path.cwd() / '.env', env_file_encoding='utf-8', extra='ignore'
+    )
 
 
 class BuildContext(BaseModel):
