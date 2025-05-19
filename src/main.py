@@ -24,7 +24,7 @@ def cli():
     prompt='Unique matrix identifier >>>',
     help='Unique matrix identifier',
 )
-def build(wifi_login: str, wifi_password: str, matrix_uuid: str):
+def build(wifi_login: str, wifi_password: str, matrix_uuid: str) -> None:
     """Сборка исходников матрицы в бинарный файл"""
 
     mqtt_cfg = MQTTConfig()  # pyright: ignore
@@ -55,11 +55,14 @@ def build(wifi_login: str, wifi_password: str, matrix_uuid: str):
 @click.option(
     '-b', '--bin_path', help='Path to the binary file to upload', default='firmware.bin'
 )
-def upload(port: str, bin_path: str):
+def upload(port: str, bin_path: str) -> None:
     """Загрузка бинарного файла на матрицу"""
 
     click.echo(f'Begin upload ESP on port {port}')
-    esptool.main(['--port', port, 'write_flash', '0x00000', bin_path])
+    try:
+        esptool.main(['--port', port, 'write_flash', '0x00000', bin_path])
+    except Exception as ex:
+        click.echo(f'Fatal Error: {ex}')
 
 
 if __name__ == '__main__':
